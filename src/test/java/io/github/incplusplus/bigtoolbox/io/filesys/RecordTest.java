@@ -1,4 +1,4 @@
-package com.incplusplus.bigtoolbox.io.filesys;
+package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import org.junit.jupiter.api.Test;
 

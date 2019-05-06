@@ -1,4 +1,4 @@
-package com.incplusplus.bigtoolbox.io.filesys;
+package io.github.incplusplus.bigtoolbox.io.filesys;
 
 public abstract class Entry
 {
