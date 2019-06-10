@@ -8,7 +8,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
-public class MyFileVisitor extends SimpleFileVisitor<Path>
+public class FileVisitor extends SimpleFileVisitor<Path>
 {
 	// Print information about
 	// each type of file.
