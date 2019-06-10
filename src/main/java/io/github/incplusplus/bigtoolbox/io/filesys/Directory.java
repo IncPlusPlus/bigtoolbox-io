@@ -160,6 +160,7 @@ public class Directory extends Entry
 	@Override
 	public long getSize()
 	{
+		index();
 		return totalSize;
 	}
 
