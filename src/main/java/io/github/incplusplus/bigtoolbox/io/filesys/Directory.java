@@ -18,6 +18,7 @@ public class Directory extends Entry
 	private int numFolders = 0;
 	private int numFiles = 0;
 	private long totalSize;
+	//TODO Check if this is still relevant (it may no longer be)
 	private final String[] filesToIgnoreBuiltIn = {"Directory.class", "File.class", "FileRelatedTools.class"};
 	private ArrayList<String> excludedFiles;
 	private ArrayList<Record> foundExcludedFiles = new ArrayList<>();
