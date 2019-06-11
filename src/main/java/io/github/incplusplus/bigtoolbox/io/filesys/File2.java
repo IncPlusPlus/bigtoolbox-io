@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class File1 extends java.io.File
+public class File2 extends java.io.File
 {
 	private final String DEFAULT_DIGIT_GROUP_SEPARATOR = ",";
 	private int numImmediateFiles;
@@ -14,49 +14,49 @@ public class File1 extends java.io.File
 	private int totalNumFolders;
 	private long totalSize = 0;
 	//TODO Find out of this needs to be volatile
-	private ArrayList<File1> children = new ArrayList<>();
+	private ArrayList<File2> children = new ArrayList<>();
 	
-	public File1(String pathname)
+	public File2(String pathname)
 	{
 		super(pathname);
 //		updateImmediateChildren();
 	}
 	
-	public File1(String parent, String child)
+	public File2(String parent, String child)
 	{
 		super(parent, child);
 //		updateImmediateChildren();
 	}
 	
-	public File1(java.io.File parent, String child)
+	public File2(java.io.File parent, String child)
 	{
 		super(parent, child);
 //		updateImmediateChildren();
 	}
 	
-	public File1(URI uri)
+	public File2(URI uri)
 	{
 		super(uri);
 //		updateImmediateChildren();
 	}
 	
 	@Override
-	public File1[] listFiles()
+	public File2[] listFiles()
 	{
 		ensureIndexed();
-		return children == null ? new File1[0] : bulkConvert(super.listFiles());
+		return children == null ? new File2[0] : bulkConvert(super.listFiles());
 	}
 	
-	private File1[] bulkConvert(java.io.File... arr)
+	private File2[] bulkConvert(java.io.File... arr)
 	{
 		if (arr == null)
 		{
-			return new File1[0];
+			return new File2[0];
 		}
-		File1[] out = new File1[arr.length];
+		File2[] out = new File2[arr.length];
 		for (int i = 0; i < arr.length; i++)
 		{
-			out[i] = (File1) arr[i];
+			out[i] = (File2) arr[i];
 		}
 		return out;
 	}
@@ -83,36 +83,36 @@ public class File1 extends java.io.File
 		//TODO test if this can just continue past in the case there are ZERO availableProcessors()
 		ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 //		ArrayList<File2> tempDirs = new ArrayList<>(localContents.length);
-		List<Callable<File1>> callables = new ArrayList<>();
+		List<Callable<File2>> callables = new ArrayList<>();
 		for (java.io.File i : localContents)
 		{
 			if (i.isDirectory())
 			{
-				File1 tempDir = new File1(i.toURI());
+				File2 tempDir = new File2(i.toURI());
 //				tempDir.index();
 				
-				Callable<File1> runnableIndexer = runnableIndexerFor(tempDir);
+				Callable<File2> runnableIndexer = runnableIndexerFor(tempDir);
 				callables.add(runnableIndexer);
 				totalSize += tempDir.getSize();
 				children.add(tempDir);
 			}
 			else if (i.isFile())
 			{
-				File1 tempFile = new File1(i.toURI());
+				File2 tempFile = new File2(i.toURI());
 				totalSize += tempFile.length();
 				children.add(tempFile);
 			}
 		}
 		try
 		{
-			List<Future<File1>> futures = WORKER_THREAD_POOL.invokeAll(callables);
+			List<Future<File2>> futures = WORKER_THREAD_POOL.invokeAll(callables);
 			if (futures.size() > 0)
 			{
 				boolean allDone = false;
 				while (!allDone)
 				{
 //				System.out.println("in loop!");
-					for (Future<File1> future : futures)
+					for (Future<File2> future : futures)
 					{
 						if (!future.isDone())
 						{
@@ -133,11 +133,11 @@ public class File1 extends java.io.File
 			 * If we've gotten here. All the threads should be done.
 			 * If they are not done and we're here, something has gone horribly wrong.
 			 */
-			for (Future<File1> f1 : futures)
+			for (Future<File2> f1 : futures)
 			{
 				if (!f1.isDone()) throw new AssertionError();
 			}
-			for (Future<File1> future : futures)
+			for (Future<File2> future : futures)
 			{
 				totalSize += future.get().getSize();
 			}
@@ -148,7 +148,7 @@ public class File1 extends java.io.File
 		}
 	}
 	
-	public File1 getLargestFile()
+	public File2 getLargestFile()
 	{
 		index();
 //		children.parallelStream()
@@ -156,19 +156,19 @@ public class File1 extends java.io.File
 //		return getLargestFile();
 	}
 	
-	Callable<File1> runnableIndexerFor(File1 f)
+	Callable<File2> runnableIndexerFor(File2 f)
 	{
-		class CallableIndexer implements Callable<File1>
+		class CallableIndexer implements Callable<File2>
 		{
-			File1 thisFile;
+			File2 thisFile;
 			
-			CallableIndexer(File1 file_constructor)
+			CallableIndexer(File2 file_constructor)
 			{
 				this.thisFile = file_constructor;
 			}
 			
 			@Override
-			public File1 call()
+			public File2 call()
 			{
 //				System.out.println("About to index " + this.thisFile.getName());
 				this.thisFile.index();
