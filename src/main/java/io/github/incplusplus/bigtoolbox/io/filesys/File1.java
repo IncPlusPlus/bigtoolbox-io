@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 
 public class File1 extends java.io.File
 {
+	private final String DEFAULT_DIGIT_GROUP_SEPARATOR = ",";
 	private int numImmediateFiles;
 	private int numImmediateFolders;
 	private int totalNumFiles;
@@ -42,10 +43,11 @@ public class File1 extends java.io.File
 	@Override
 	public File1[] listFiles()
 	{
+		ensureIndexed();
 		return children == null ? new File1[0] : bulkConvert(super.listFiles());
 	}
 	
-	private File1[] bulkConvert(java.io.File[] arr)
+	private File1[] bulkConvert(java.io.File... arr)
 	{
 		if (arr == null)
 		{
@@ -58,13 +60,20 @@ public class File1 extends java.io.File
 		}
 		return out;
 	}
-
-//	private void updateImmediateChildren()
-//	{
-//		children = this.listFiles();
-//	}
 	
-	public void index()
+	private void ensureIndexed()
+	{
+		
+		//todo
+	}
+	
+	public long getSize()
+	{
+		ensureIndexed();
+		return totalSize;
+	}
+	
+	private void index()
 	{
 		java.io.File[] localContents = super.listFiles();
 		if (localContents == null || localContents.length == 0)
@@ -81,6 +90,7 @@ public class File1 extends java.io.File
 			{
 				File1 tempDir = new File1(i.toURI());
 //				tempDir.index();
+				
 				Callable<File1> runnableIndexer = runnableIndexerFor(tempDir);
 				callables.add(runnableIndexer);
 				totalSize += tempDir.getSize();
@@ -123,9 +133,9 @@ public class File1 extends java.io.File
 			 * If we've gotten here. All the threads should be done.
 			 * If they are not done and we're here, something has gone horribly wrong.
 			 */
-			for (Future<File1> f3 : futures)
+			for (Future<File1> f1 : futures)
 			{
-				if (!f3.isDone()) throw new AssertionError();
+				if (!f1.isDone()) throw new AssertionError();
 			}
 			for (Future<File1> future : futures)
 			{
@@ -166,8 +176,56 @@ public class File1 extends java.io.File
 		return new CallableIndexer(f);
 	}
 	
-	public long getSize()
+	private String getSuffix()
 	{
-		return totalSize;
+		long size = this.getSize();
+		if(size <= Math.pow(1024, 1))
+		{
+			return "B";
+		}
+		else if(size <= Math.pow(1024, 2))
+		{
+			return "KB";
+		}
+		else if(size <= Math.pow(1024, 3))
+		{
+			return "MB";
+		}
+		else if(size <= Math.pow(1024, 4))
+		{
+			return "GB";
+		}
+		else if(size <= Math.pow(1024, 5))
+		{
+			return "TB";
+		}
+		else if(size <= Math.pow(1024, 6))
+		{
+			return "PB";
+		}
+		else if(size <= Math.pow(1024, 7))
+		{
+			return "EB";
+		}
+		else
+		{
+			return "??";
+		}
+	}
+	
+	public String getFormattedSize()
+	{
+		return getFormattedSize(false, false);
+	}
+	
+	public String getFormattedSize(boolean createSpaces, boolean addSeparator)
+	{
+		return getFormattedSize(createSpaces, addSeparator, DEFAULT_DIGIT_GROUP_SEPARATOR);
+	}
+	
+	public String getFormattedSize(boolean createSpaces, boolean addSeparator, String separator)
+	{
+		//TODO add implementation
+		return this.getSize() + " " + this.getSuffix();
 	}
 }
