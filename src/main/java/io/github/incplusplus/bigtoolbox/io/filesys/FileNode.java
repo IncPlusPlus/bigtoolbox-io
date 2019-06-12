@@ -91,17 +91,15 @@ public class FileNode extends File implements Iterable<FileNode>
 			parent.registerChildForSearch(node);
 	}
 	
-//	public FileNode findTreeNode(Comparable<Object> cmp)
-//	{
-//		for (FileNode element : this.elementsIndex)
-//		{
-//			Object elData = element.data;
-//			if (cmp.compareTo(elData) == 0)
-//				return element;
-//		}
-//
-//		return null;
-//	}
+	public FileNode findTreeNode(File illusiveFile)
+	{
+		for (FileNode element : this.elementsIndex)
+		{
+			if (illusiveFile.getAbsolutePath().equals(element.getAbsolutePath()))
+				return element;
+		}
+		return null;
+	}
 	
 	@Override
 	public String toString()
@@ -139,11 +137,12 @@ public class FileNode extends File implements Iterable<FileNode>
 			{
 				appendDirTree(file, this);
 			}
-			else
+			else if(file.isFile())
 			{
 				appendFile(file, this);
 			}
 		}
+		System.out.println("Done indexing!");
 	}
 	
 	private void appendDirTree(File folder, FileNode DirRoot)
@@ -155,7 +154,7 @@ public class FileNode extends File implements Iterable<FileNode>
 				appendDirTree(file,
 						DirRoot.children.get(DirRoot.children.size() - 1));
 			}
-			else
+			else if(file.isFile())
 			{
 				appendFile(file,
 						DirRoot.children.get(DirRoot.children.size() - 1));
