@@ -133,7 +133,7 @@ public class FileNode extends File implements Iterable<FileNode>
 			//nothing to do
 			return;
 		}
-		for (File file : safeListFiles())
+		for (File file : safeListFiles(this))
 		{
 			if (file.isDirectory())
 			{
@@ -148,8 +148,7 @@ public class FileNode extends File implements Iterable<FileNode>
 	
 	private void appendDirTree(File folder, FileNode DirRoot)
 	{
-		DirRoot.addChild(folder);
-		for (File file : folder.listFiles())
+		for (File file : safeListFiles(DirRoot.addChild(folder)))
 		{
 			if (file.isDirectory())
 			{
@@ -164,9 +163,9 @@ public class FileNode extends File implements Iterable<FileNode>
 		}
 	}
 	
-	private File[] safeListFiles()
+	private File[] safeListFiles(FileNode currentNode)
 	{
-		File[] out = listFiles();
+		File[] out = currentNode.listFiles();
 		return out == null ? new File[0] : out;
 	}
 	
