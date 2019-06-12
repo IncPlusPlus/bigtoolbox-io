@@ -13,6 +13,7 @@ public class File1 extends java.io.File
 	private int totalNumFiles;
 	private int totalNumFolders;
 	private long totalSize = 0;
+	private File1 parent;
 	//TODO Find out of this needs to be volatile
 	private ArrayList<File1> children = new ArrayList<>();
 	
@@ -38,6 +39,11 @@ public class File1 extends java.io.File
 	{
 		super(uri);
 //		updateImmediateChildren();
+	}
+	
+	public boolean isRoot()
+	{
+		return parent == null;
 	}
 	
 	@Override
@@ -188,31 +194,31 @@ public class File1 extends java.io.File
 	private String getSuffix()
 	{
 		long size = this.getSize();
-		if(size <= Math.pow(1024, 1))
+		if (size <= Math.pow(1024, 1))
 		{
 			return "B";
 		}
-		else if(size <= Math.pow(1024, 2))
+		else if (size <= Math.pow(1024, 2))
 		{
 			return "KB";
 		}
-		else if(size <= Math.pow(1024, 3))
+		else if (size <= Math.pow(1024, 3))
 		{
 			return "MB";
 		}
-		else if(size <= Math.pow(1024, 4))
+		else if (size <= Math.pow(1024, 4))
 		{
 			return "GB";
 		}
-		else if(size <= Math.pow(1024, 5))
+		else if (size <= Math.pow(1024, 5))
 		{
 			return "TB";
 		}
-		else if(size <= Math.pow(1024, 6))
+		else if (size <= Math.pow(1024, 6))
 		{
 			return "PB";
 		}
-		else if(size <= Math.pow(1024, 7))
+		else if (size <= Math.pow(1024, 7))
 		{
 			return "EB";
 		}
