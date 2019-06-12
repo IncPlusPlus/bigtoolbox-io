@@ -1,13 +1,14 @@
 package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import java.io.File;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FileNode implements Iterable<FileNode> {
+public class FileNode extends File implements Iterable<FileNode> {
 	
-	public File data;
+//	public File data;
 	public FileNode parent;
 	public List<FileNode> children;
 	
@@ -22,10 +23,35 @@ public class FileNode implements Iterable<FileNode> {
 	private List<FileNode> elementsIndex;
 	
 	public FileNode(File data) {
-		this.data = data;
+		super();
+//		this.data = data;
 		this.children = new LinkedList<FileNode>();
 		this.elementsIndex = new LinkedList<FileNode>();
 		this.elementsIndex.add(this);
+	}
+	
+	public FileNode(String pathname)
+	{
+		super(pathname);
+//		updateImmediateChildren();
+	}
+	
+	public FileNode(String parent, String child)
+	{
+		super(parent, child);
+//		updateImmediateChildren();
+	}
+	
+	public FileNode(java.io.File parent, String child)
+	{
+		super(parent, child);
+//		updateImmediateChildren();
+	}
+	
+	public FileNode(URI uri)
+	{
+		super(uri);
+//		updateImmediateChildren();
 	}
 	
 	public FileNode addChild(File child) {
