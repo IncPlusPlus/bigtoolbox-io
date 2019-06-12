@@ -75,6 +75,7 @@ public class File1 extends java.io.File
 	
 	private void index()
 	{
+		//TODO Determine if the children already exist so they can be cleared!!!
 		java.io.File[] localContents = super.listFiles();
 		if (localContents == null || localContents.length == 0)
 		{
