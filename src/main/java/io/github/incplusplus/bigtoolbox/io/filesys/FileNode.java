@@ -2,9 +2,11 @@ package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class FileNode extends File implements Iterable<FileNode>
 {
@@ -142,11 +144,12 @@ public class FileNode extends File implements Iterable<FileNode>
 				appendFile(file, this);
 			}
 		}
-		System.out.println("Done indexing!");
 	}
 	
 	private void appendDirTree(File folder, FileNode DirRoot)
 	{
+		ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		List<Callable<FileNode>> callables = new ArrayList<>();
 		for (File file : safeListFiles(DirRoot.addChild(folder)))
 		{
 			if (file.isDirectory())
@@ -160,7 +163,51 @@ public class FileNode extends File implements Iterable<FileNode>
 						DirRoot.children.get(DirRoot.children.size() - 1));
 			}
 		}
+		try
+		{
+			List<Future<FileNode>> futures = WORKER_THREAD_POOL.invokeAll(callables);
+			if (futures.size() > 0)
+			{
+				boolean allDone = false;
+				while (!allDone)
+				{
+//				System.out.println("in loop!");
+					for (Future<FileNode> future : futures)
+					{
+						if (!future.isDone())
+						{
+//						System.out.println("Not all done ;-;");
+							allDone = false;
+							break;
+						}
+						else
+						{
+							allDone = true;
+//						System.out.println(future.get().getName() + " is done!");
+						}
+					}
+				}
+			}
+			WORKER_THREAD_POOL.shutdownNow();
+			/*
+			 * If we've gotten here. All the threads should be done.
+			 * If they are not done and we're here, something has gone horribly wrong.
+			 */
+			for (Future<FileNode> f1 : futures)
+			{
+				if (!f1.isDone()) throw new AssertionError();
+			}
+			for (Future<FileNode> future : futures)
+			{
+				size += future.get().length();
+			}
+		}
+		catch (InterruptedException | ExecutionException e)
+		{
+			e.printStackTrace();
+		}
 	}
+	
 	
 	private File[] safeListFiles(FileNode currentNode)
 	{
@@ -173,6 +220,33 @@ public class FileNode extends File implements Iterable<FileNode>
 		filenode.addChild(file);
 	}
 	
+	Callable<FileNode> runnableIndexerFor(FileNode f)
+	{
+		class CallableIndexer implements Callable<FileNode>
+		{
+			FileNode thisFile;
+			
+			CallableIndexer(FileNode file_constructor)
+			{
+				this.thisFile = file_constructor;
+			}
+			
+			@Override
+			public FileNode call()
+			{
+//				System.out.println("About to index " + this.thisFile.getName());
+				this.thisFile.index();
+//				System.out.println("Finished indexing " + this.thisFile.getName());
+//				if (Thread.currentThread().isInterrupted())
+//				{
+//					// Cannot use InterruptedException since it's checked
+//					throw new RuntimeException();
+//				}
+				return thisFile;
+			}
+		}
+		return new CallableIndexer(f);
+	}
 	
 	public String renderDirectoryTree()
 	{
