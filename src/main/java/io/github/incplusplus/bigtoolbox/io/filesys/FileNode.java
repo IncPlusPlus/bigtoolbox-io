@@ -22,6 +22,7 @@ public class FileNode extends File implements Iterable<FileNode>
 	{
 		return children.size() == 0;
 	}
+	private long size = 0L;
 
 	private List<FileNode> elementsIndex;
 	
@@ -115,25 +116,34 @@ public class FileNode extends File implements Iterable<FileNode>
 		return iter;
 	}
 	
-	public FileNode createDirTree(File folder)
+	@Override
+	public long length()
 	{
-		if (!folder.isDirectory())
+		return 0L;
+	}
+	
+	public void index()
+	{
+		if(!this.exists())
 		{
-			throw new IllegalArgumentException("folder is not a Directory");
+			System.out.println("SEVERE: FileNode created for file that doesn't exist: " + this);
 		}
-		FileNode DirRoot = new FileNode(folder);
-		for (File file : folder.listFiles())
+		if (this.isFile())
+		{
+			//nothing to do
+			return;
+		}
+		for (File file : safeListFiles())
 		{
 			if (file.isDirectory())
 			{
-				appendDirTree(file, DirRoot);
+				appendDirTree(file, this);
 			}
 			else
 			{
-				appendFile(file, DirRoot);
+				appendFile(file, this);
 			}
 		}
-		return DirRoot;
 	}
 	
 	private void appendDirTree(File folder, FileNode DirRoot)
@@ -154,15 +164,21 @@ public class FileNode extends File implements Iterable<FileNode>
 		}
 	}
 	
+	private File[] safeListFiles()
+	{
+		File[] out = listFiles();
+		return out == null ? new File[0] : out;
+	}
+	
 	private void appendFile(File file, FileNode filenode)
 	{
 		filenode.addChild(file);
 	}
 	
 	
-	public String renderDirectoryTree(FileNode tree)
+	public String renderDirectoryTree()
 	{
-		List<StringBuilder> lines = renderDirectoryTreeLines(tree);
+		List<StringBuilder> lines = renderDirectoryTreeLines(this);
 		String newline = System.getProperty("line.separator");
 		StringBuilder sb = new StringBuilder(lines.size() * 20);
 		for (StringBuilder line : lines)
@@ -220,7 +236,7 @@ public class FileNode extends File implements Iterable<FileNode>
 
 //	public static void main(String[] args) {
 //		File file = new File("./");
-//		FileNode DirTree = createDirTree(file);
+//		FileNode DirTree = index(file);
 //		String result = renderDirectoryTree(DirTree);
 //		System.out.println(result);
 //		try {
