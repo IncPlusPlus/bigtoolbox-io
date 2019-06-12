@@ -1,7 +1,6 @@
 package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import com.google.common.base.Stopwatch;
-import com.tree.TreeNode;
 
 import java.io.IOException;
 
@@ -15,6 +14,7 @@ public class TempStub
 //		Stream<Path> pathStream = Files.walk(startDir);
 		File1 file = new File1(pathString);
 		Directory d = new Directory(pathString);
+		FileNode fn;
 		Stopwatch sw;
 //		DirectoryStream directoryStream = java.nio.file.Files.newDirectoryStream(startDir);
 //		System.out.println("Size with streams: " + file.getSize());
@@ -49,7 +49,7 @@ public class TempStub
 		
 		sw = Stopwatch.createStarted();
 //		f2.index();
-		TreeNode.main(new String[]{pathString});
+		
 		sw.stop();
 		System.out.println("Time with Tree: " + sw.toString());
 //		System.out.println("Size according to Tree: " + f2.getSize());
