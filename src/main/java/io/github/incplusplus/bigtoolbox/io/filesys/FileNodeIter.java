@@ -2,7 +2,7 @@ package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import java.util.Iterator;
 
-public class FileNodeIter<T> implements Iterator<FileNode> {
+public class FileNodeIter implements Iterator<FileNode> {
 
 	enum ProcessStages {
 		ProcessParent, ProcessChildCurNode, ProcessChildSubNode

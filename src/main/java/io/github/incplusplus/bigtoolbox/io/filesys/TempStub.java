@@ -3,7 +3,6 @@ package io.github.incplusplus.bigtoolbox.io.filesys;
 import com.google.common.base.Stopwatch;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class TempStub
 {
@@ -53,6 +52,5 @@ public class TempStub
 		sw.stop();
 		System.out.println("Time with Tree: " + sw.toString());
 		System.out.println("Size according to Tree: " + fn.length());
-		System.out.println(Arrays.toString(fn.children.toArray()));
 	}
 }

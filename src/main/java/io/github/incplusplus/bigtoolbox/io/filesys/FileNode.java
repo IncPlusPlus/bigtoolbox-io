@@ -26,47 +26,47 @@ public class FileNode extends File implements Iterable<FileNode>
 	}
 	private long size = 0L;
 
-	private List<FileNode> elementsIndex;
+//	private List<FileNode> elementsIndex;
 	
 	public FileNode(File data)
 	{
 		super(data.toURI());
 //		this.data = data;
 		this.children = new LinkedList<FileNode>();
-		this.elementsIndex = new LinkedList<FileNode>();
-		this.elementsIndex.add(this);
+//		this.elementsIndex = new LinkedList<FileNode>();
+//		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(String pathname)
 	{
 		super(pathname);
 		this.children = new LinkedList<FileNode>();
-		this.elementsIndex = new LinkedList<FileNode>();
-		this.elementsIndex.add(this);
+//		this.elementsIndex = new LinkedList<FileNode>();
+//		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(String parent, String child)
 	{
 		super(parent, child);
 		this.children = new LinkedList<FileNode>();
-		this.elementsIndex = new LinkedList<FileNode>();
-		this.elementsIndex.add(this);
+//		this.elementsIndex = new LinkedList<FileNode>();
+//		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(java.io.File parent, String child)
 	{
 		super(parent, child);
 		this.children = new LinkedList<FileNode>();
-		this.elementsIndex = new LinkedList<FileNode>();
-		this.elementsIndex.add(this);
+//		this.elementsIndex = new LinkedList<FileNode>();
+//		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(URI uri)
 	{
 		super(uri);
 		this.children = new LinkedList<FileNode>();
-		this.elementsIndex = new LinkedList<FileNode>();
-		this.elementsIndex.add(this);
+//		this.elementsIndex = new LinkedList<FileNode>();
+//		this.elementsIndex.add(this);
 	}
 	
 	private FileNode addChild(File child)
@@ -74,7 +74,7 @@ public class FileNode extends File implements Iterable<FileNode>
 		FileNode childNode = new FileNode(child);
 		childNode.parent = this;
 		this.children.add(childNode);
-		this.registerChildForSearch(childNode);
+//		this.registerChildForSearch(childNode);
 		return childNode;
 	}
 	
@@ -86,22 +86,22 @@ public class FileNode extends File implements Iterable<FileNode>
 			return parent.getLevel() + 1;
 	}
 	
-	private void registerChildForSearch(FileNode node)
-	{
-		elementsIndex.add(node);
-		if (parent != null)
-			parent.registerChildForSearch(node);
-	}
+//	private void registerChildForSearch(FileNode node)
+//	{
+//		elementsIndex.add(node);
+//		if (parent != null)
+//			parent.registerChildForSearch(node);
+//	}
 	
-	public FileNode findTreeNode(File illusiveFile)
-	{
-		for (FileNode element : this.elementsIndex)
-		{
-			if (illusiveFile.getAbsolutePath().equals(element.getAbsolutePath()))
-				return element;
-		}
-		return null;
-	}
+//	public FileNode findTreeNode(File illusiveFile)
+//	{
+//		for (FileNode element : this.elementsIndex)
+//		{
+//			if (illusiveFile.getAbsolutePath().equals(element.getAbsolutePath()))
+//				return element;
+//		}
+//		return null;
+//	}
 	
 	@Override
 	public String toString()
@@ -112,7 +112,7 @@ public class FileNode extends File implements Iterable<FileNode>
 	@Override
 	public Iterator<FileNode> iterator()
 	{
-		FileNodeIter<Object> iter = new FileNodeIter<Object>(this);
+		FileNodeIter iter = new FileNodeIter(this);
 		return iter;
 	}
 	
