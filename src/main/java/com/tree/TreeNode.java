@@ -1,8 +1,6 @@
 package com.tree;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -158,18 +156,18 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
 	public static void main(String[] args) {
 		File file = new File("./");
 		TreeNode<File> DirTree = createDirTree(file);
-		String result = renderDirectoryTree(DirTree);
-		System.out.println(result);
-		try {
-			File newTextFile = new File("./DirectoryTree.txt");
-			
-			FileWriter fw = new FileWriter(newTextFile);
-			fw.write(result);
-			fw.close();
-			
-		} catch (IOException iox) {
-			iox.printStackTrace();
-		}
+//		String result = renderDirectoryTree(DirTree);
+//		System.out.println(result);
+//		try {
+//			File newTextFile = new File("./DirectoryTree.txt");
+//
+//			FileWriter fw = new FileWriter(newTextFile);
+//			fw.write(result);
+//			fw.close();
+//
+//		} catch (IOException iox) {
+//			iox.printStackTrace();
+//		}
 		
 	}
 }

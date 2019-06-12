@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class File1 extends java.io.File
 {
@@ -14,6 +15,8 @@ public class File1 extends java.io.File
 	private int totalNumFolders;
 	private long totalSize = 0;
 	private File1 parent;
+	private boolean indexed = false;
+	private AtomicBoolean indexInProgress = new AtomicBoolean(false);
 	//TODO Find out of this needs to be volatile
 	private ArrayList<File1> children = new ArrayList<>();
 	
@@ -69,17 +72,20 @@ public class File1 extends java.io.File
 	
 	private void ensureIndexed()
 	{
-		
+//		if (!indexed)
+//		{
+//			index();
+//		}
 		//todo
 	}
 	
 	public long getSize()
 	{
-		ensureIndexed();
+//		ensureIndexed();
 		return totalSize;
 	}
 	
-	private void index()
+	public void index()
 	{
 		//TODO Determine if the children already exist so they can be cleared!!!
 		java.io.File[] localContents = super.listFiles();
@@ -153,11 +159,13 @@ public class File1 extends java.io.File
 		{
 			e.printStackTrace();
 		}
+//		this.indexed = true;
 	}
 	
 	public File1 getLargestFile()
 	{
-		index();
+		//todo
+//		index();
 //		children.parallelStream()
 		return null;
 //		return getLargestFile();
