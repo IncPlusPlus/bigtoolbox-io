@@ -6,24 +6,28 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FileNode extends File implements Iterable<FileNode> {
+public class FileNode extends File implements Iterable<FileNode>
+{
 	
-//	public File data;
+	//	public File data;
 	public FileNode parent;
 	public List<FileNode> children;
 	
-	public boolean isRoot() {
+	public boolean isRoot()
+	{
 		return parent == null;
 	}
 	
-	public boolean isLeaf() {
+	public boolean isLeaf()
+	{
 		return children.size() == 0;
 	}
-	
+
 	private List<FileNode> elementsIndex;
 	
-	public FileNode(File data) {
-		super();
+	public FileNode(File data)
+	{
+		super(data.toURI());
 //		this.data = data;
 		this.children = new LinkedList<FileNode>();
 		this.elementsIndex = new LinkedList<FileNode>();
@@ -33,28 +37,37 @@ public class FileNode extends File implements Iterable<FileNode> {
 	public FileNode(String pathname)
 	{
 		super(pathname);
-//		updateImmediateChildren();
+		this.children = new LinkedList<FileNode>();
+		this.elementsIndex = new LinkedList<FileNode>();
+		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(String parent, String child)
 	{
 		super(parent, child);
-//		updateImmediateChildren();
+		this.children = new LinkedList<FileNode>();
+		this.elementsIndex = new LinkedList<FileNode>();
+		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(java.io.File parent, String child)
 	{
 		super(parent, child);
-//		updateImmediateChildren();
+		this.children = new LinkedList<FileNode>();
+		this.elementsIndex = new LinkedList<FileNode>();
+		this.elementsIndex.add(this);
 	}
 	
 	public FileNode(URI uri)
 	{
 		super(uri);
-//		updateImmediateChildren();
+		this.children = new LinkedList<FileNode>();
+		this.elementsIndex = new LinkedList<FileNode>();
+		this.elementsIndex.add(this);
 	}
 	
-	public FileNode addChild(File child) {
+	private FileNode addChild(File child)
+	{
 		FileNode childNode = new FileNode(child);
 		childNode.parent = this;
 		this.children.add(childNode);
@@ -62,126 +75,152 @@ public class FileNode extends File implements Iterable<FileNode> {
 		return childNode;
 	}
 	
-	public int getLevel() {
+	private int getLevel()
+	{
 		if (this.isRoot())
 			return 0;
 		else
 			return parent.getLevel() + 1;
 	}
 	
-	private void registerChildForSearch(FileNode node) {
+	private void registerChildForSearch(FileNode node)
+	{
 		elementsIndex.add(node);
 		if (parent != null)
 			parent.registerChildForSearch(node);
 	}
 	
-	public FileNode findTreeNode(Comparable<Object> cmp) {
-		for (FileNode element : this.elementsIndex) {
-			Object elData = element.data;
-			if (cmp.compareTo(elData) == 0)
-				return element;
-		}
-		
-		return null;
+//	public FileNode findTreeNode(Comparable<Object> cmp)
+//	{
+//		for (FileNode element : this.elementsIndex)
+//		{
+//			Object elData = element.data;
+//			if (cmp.compareTo(elData) == 0)
+//				return element;
+//		}
+//
+//		return null;
+//	}
+	
+	@Override
+	public String toString()
+	{
+		return super.toString();
 	}
 	
 	@Override
-	public String toString() {
-		return data != null ? data.toString() : "[data null]";
-	}
-	
-	@Override
-	public Iterator<FileNode> iterator() {
+	public Iterator<FileNode> iterator()
+	{
 		FileNodeIter<Object> iter = new FileNodeIter<Object>(this);
 		return iter;
 	}
 	
-	public static FileNode createDirTree(File folder) {
-		if (!folder.isDirectory()) {
+	public FileNode createDirTree(File folder)
+	{
+		if (!folder.isDirectory())
+		{
 			throw new IllegalArgumentException("folder is not a Directory");
 		}
 		FileNode DirRoot = new FileNode(folder);
-		for (File file : folder.listFiles()) {
-			if (file.isDirectory()) {
+		for (File file : folder.listFiles())
+		{
+			if (file.isDirectory())
+			{
 				appendDirTree(file, DirRoot);
-			} else {
+			}
+			else
+			{
 				appendFile(file, DirRoot);
 			}
 		}
 		return DirRoot;
 	}
-
-	public static void appendDirTree(File folder, FileNode DirRoot)
+	
+	private void appendDirTree(File folder, FileNode DirRoot)
 	{
 		DirRoot.addChild(folder);
-		for (File file : folder.listFiles()) {
-			if (file.isDirectory()) {
+		for (File file : folder.listFiles())
+		{
+			if (file.isDirectory())
+			{
 				appendDirTree(file,
 						DirRoot.children.get(DirRoot.children.size() - 1));
-			} else {
+			}
+			else
+			{
 				appendFile(file,
 						DirRoot.children.get(DirRoot.children.size() - 1));
 			}
 		}
 	}
-
-	public static void appendFile(File file, FileNode filenode) {
+	
+	private void appendFile(File file, FileNode filenode)
+	{
 		filenode.addChild(file);
 	}
-
-
-	public static String renderDirectoryTree(FileNode tree) {
+	
+	
+	public String renderDirectoryTree(FileNode tree)
+	{
 		List<StringBuilder> lines = renderDirectoryTreeLines(tree);
 		String newline = System.getProperty("line.separator");
 		StringBuilder sb = new StringBuilder(lines.size() * 20);
-		for (StringBuilder line : lines) {
+		for (StringBuilder line : lines)
+		{
 			sb.append(line);
 			sb.append(newline);
 		}
 		return sb.toString();
 	}
-
-	public static List<StringBuilder>
-	renderDirectoryTreeLines(FileNode
-			                         tree) {
+	
+	private List<StringBuilder> renderDirectoryTreeLines(FileNode tree)
+	{
 		List<StringBuilder> result = new LinkedList<>();
-		result.add(new StringBuilder().append(tree.data.getName()));
+		result.add(new StringBuilder().append(tree.getName()));
 		Iterator<FileNode> iterator = tree.children.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			List<StringBuilder> subtree =
 					renderDirectoryTreeLines(iterator.next());
-			if (iterator.hasNext()) {
+			if (iterator.hasNext())
+			{
 				addSubtree(result, subtree);
-			} else {
+			}
+			else
+			{
 				addLastSubtree(result, subtree);
 			}
 		}
 		return result;
 	}
-
-	private static void addSubtree(List<StringBuilder> result,
-	                               List<StringBuilder> subtree) {
+	
+	private void addSubtree(List<StringBuilder> result,
+	                               List<StringBuilder> subtree)
+	{
 		Iterator<StringBuilder> iterator = subtree.iterator();
 		//subtree generated by renderDirectoryTreeLines has at least one line which is tree.getData()
 		result.add(iterator.next().insert(0, "├── "));
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			result.add(iterator.next().insert(0, "│   "));
 		}
 	}
-
-	private static void addLastSubtree(List<StringBuilder> result,
-	                                   List<StringBuilder> subtree) {
+	
+	private void addLastSubtree(List<StringBuilder> result,
+	                                   List<StringBuilder> subtree)
+	{
 		Iterator<StringBuilder> iterator = subtree.iterator();
 		//subtree generated by renderDirectoryTreeLines has at least one line which is tree.getData()
 		result.add(iterator.next().insert(0, "└── "));
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			result.add(iterator.next().insert(0, "    "));
 		}
 	}
 
-	public static void main(String[] args) {
-		File file = new File("./");
-		FileNode DirTree = createDirTree(file);
+//	public static void main(String[] args) {
+//		File file = new File("./");
+//		FileNode DirTree = createDirTree(file);
 //		String result = renderDirectoryTree(DirTree);
 //		System.out.println(result);
 //		try {
@@ -194,6 +233,6 @@ public class FileNode extends File implements Iterable<FileNode> {
 //		} catch (IOException iox) {
 //			iox.printStackTrace();
 //		}
-
-	}
+//
+//	}
 }
