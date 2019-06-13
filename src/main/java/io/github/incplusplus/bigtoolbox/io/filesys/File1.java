@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class File1 extends java.io.File implements Iterable<File1>
 {
-	private final String DEFAULT_DIGIT_GROUP_SEPARATOR = ",";
+	private static final String DEFAULT_DIGIT_GROUP_SEPARATOR = ",";
 	private int numImmediateFiles;
 	private int numImmediateFolders;
 	private int totalNumFiles;
@@ -20,7 +20,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 	private boolean indexed = false;
 	private AtomicBoolean indexInProgress = new AtomicBoolean(false);
 	//TODO Find out of this needs to be volatile
-	ArrayList<File1> children = new ArrayList<>();
+	List<File1> children = new LinkedList<>();
 	
 	public File1(String pathname)
 	{
@@ -87,6 +87,11 @@ public class File1 extends java.io.File implements Iterable<File1>
 		return totalSize;
 	}
 	
+	private void setParent(File1 parent)
+	{
+		this.parent = parent;
+	}
+	
 	public void index()
 	{
 		//TODO Determine if the children already exist so they can be cleared!!!
@@ -96,7 +101,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 			return;
 		}
 		//TODO test if this can just continue past in the case there are ZERO availableProcessors()
-		ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		ExecutorService WORKER_THREAD_POOL = Executors.newFixedThreadPool(10);
 //		ArrayList<File2> tempDirs = new ArrayList<>(localContents.length);
 		List<Callable<File1>> callables = new ArrayList<>();
 		for (java.io.File i : localContents)
@@ -109,12 +114,14 @@ public class File1 extends java.io.File implements Iterable<File1>
 				Callable<File1> runnableIndexer = runnableIndexerFor(tempDir);
 				callables.add(runnableIndexer);
 				totalSize += tempDir.getSize();
+				tempDir.setParent(this);
 				children.add(tempDir);
 			}
 			else if (i.isFile())
 			{
 				File1 tempFile = new File1(i.toURI());
 				totalSize += tempFile.length();
+				tempFile.setParent(this);
 				children.add(tempFile);
 			}
 		}
