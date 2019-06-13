@@ -1,6 +1,6 @@
 package io.github.incplusplus.bigtoolbox.io.filesys;
 
-import com.google.common.base.Stopwatch;
+//import com.google.common.base.Stopwatch;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class TempStub
 //		Stream<Path> pathStream = Files.walk(startDir);
 		File1 file1 = new File1(pathString);
 		Directory d = new Directory(pathString);
-		Stopwatch sw;
+//		Stopwatch sw;
 //		DirectoryStream directoryStream = java.nio.file.Files.newDirectoryStream(startDir);
 //		System.out.println("Size with streams: " + file.getSize());
 //		System.out.println("Size according to my library: " + d.getSize());
@@ -34,10 +34,10 @@ public class TempStub
 		System.out.println("Starting!");
 		
 		
-		sw = Stopwatch.createStarted();
+//		sw = Stopwatch.createStarted();
 		file1.index();
-		sw.stop();
-		System.out.println("Time with File1: " + sw.toString());
+//		sw.stop();
+//		System.out.println("Time with File1: " + sw.toString());
 		System.out.println("Size according to File1: " + file1.getSize());
 
 //		sw = Stopwatch.createStarted();
