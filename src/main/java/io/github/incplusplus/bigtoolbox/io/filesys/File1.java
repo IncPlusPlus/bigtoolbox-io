@@ -54,7 +54,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 	@Override
 	public File1[] listFiles()
 	{
-		ensureIndexed();
+//		ensureIndexed();
 		return children == null ? new File1[0] : bulkConvert(super.listFiles());
 	}
 	
@@ -74,10 +74,18 @@ public class File1 extends java.io.File implements Iterable<File1>
 	
 	private void ensureIndexed()
 	{
-//		if (!indexed)
-//		{
-//			index();
-//		}
+		if (!indexed)
+		{
+			//If indexing is not in progress, set indexInProgress to true and index!
+			if(!indexInProgress.compareAndExchange(false,true))
+			{
+				index();
+				//Now we want to set indexInProgress back to false
+				//If indexInProgress isn't still true, something has gone horribly wrong
+				assert(indexInProgress.compareAndExchange(true, false));
+			}
+			indexed=true;
+		}
 		//todo
 	}
 	
@@ -92,7 +100,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 		this.parent = parent;
 	}
 	
-	public void index()
+	void index()
 	{
 		//TODO Determine if the children already exist so they can be cleared!!!
 		java.io.File[] localContents = super.listFiles();
@@ -168,7 +176,6 @@ public class File1 extends java.io.File implements Iterable<File1>
 		{
 			e.printStackTrace();
 		}
-//		this.indexed = true;
 	}
 	
 	Callable<File1> runnableIndexerFor(File1 f)
@@ -186,7 +193,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 			public File1 call()
 			{
 //				System.out.println("About to index " + this.thisFile.getName());
-				this.thisFile.index();
+				this.thisFile.ensureIndexed();
 //				System.out.println("Finished indexing " + this.thisFile.getName());
 //				if (Thread.currentThread().isInterrupted())
 //				{
@@ -202,7 +209,6 @@ public class File1 extends java.io.File implements Iterable<File1>
 	public File1 getLargestFile()
 	{
 		//todo
-//		index();
 //		children.parallelStream()
 		return null;
 //		return getLargestFile();
@@ -211,6 +217,8 @@ public class File1 extends java.io.File implements Iterable<File1>
 	@Override
 	public Iterator<File1> iterator()
 	{
+		ensureIndexed();
+//		ensureIndexed();
 		File1Iter iter = new File1Iter(this);
 		return iter;
 	}
@@ -254,6 +262,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 	
 	public String getFormattedSize()
 	{
+//		ensureIndexed();
 		return getFormattedSize(false, false);
 	}
 	
@@ -271,7 +280,8 @@ public class File1 extends java.io.File implements Iterable<File1>
 	public String renderDirectoryTree()
 	{
 		List<StringBuilder> lines = renderDirectoryTreeLines(this);
-		String newline = System.getProperty("line.separator");
+//		String newline = System.getProperty("line.separator");
+		String newline = "\n";
 		StringBuilder sb = new StringBuilder(lines.size() * 20);
 		for (StringBuilder line : lines)
 		{
@@ -283,6 +293,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 	
 	private List<StringBuilder> renderDirectoryTreeLines(File1 tree)
 	{
+		tree.ensureIndexed();
 		List<StringBuilder> result = new LinkedList<>();
 		result.add(new StringBuilder().append(tree.getName()));
 		Iterator<File1> iterator = tree.children.iterator();
