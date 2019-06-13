@@ -81,7 +81,6 @@ class File1Test
 			URL resourceLoc = File1Test.class.getResource("/sample-structure");
 			String resourcePath = new File(resourceLoc.toURI()).getAbsolutePath();
 			File1 f1 = new File1(resourcePath);
-//			f1.index();
 			System.out.println(f1.renderDirectoryTree());
 			assertEquals("sample-structure\n" +
 					"├── A\n" +
