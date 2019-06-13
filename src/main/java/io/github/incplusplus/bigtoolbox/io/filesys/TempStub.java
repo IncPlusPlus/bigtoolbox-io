@@ -40,18 +40,18 @@ public class TempStub
 		System.out.println("Time with File1: " + sw.toString());
 		System.out.println("Size according to File1: " + file1.getSize());
 
-		sw = Stopwatch.createStarted();
-		d.getSize();
-		sw.stop();
-		System.out.println("Time with my library: " + sw.toString());
-		System.out.println("Size according to my library: " + d.getSize());
-		
-		sw = Stopwatch.createStarted();
-		fn.index();
-		
-		sw.stop();
-		System.out.println("Time with Tree: " + sw.toString());
-		System.out.println("Size according to Tree: " + fn.length());
+//		sw = Stopwatch.createStarted();
+//		d.getSize();
+//		sw.stop();
+//		System.out.println("Time with my library: " + sw.toString());
+//		System.out.println("Size according to my library: " + d.getSize());
+//
+//		sw = Stopwatch.createStarted();
+//		fn.index();
+//
+//		sw.stop();
+//		System.out.println("Time with Tree: " + sw.toString());
+//		System.out.println("Size according to Tree: " + fn.length());
 		
 		System.out.println();
 		System.out.println(file1.renderDirectoryTree());
