@@ -6,6 +6,7 @@ import java.util.ArrayList;
 /**
  * This class represents a single directory (A.K.A. a folder)
  */
+@Deprecated(since = "1.0.50", forRemoval = true)
 public class Directory extends Entry
 {
 	// TODO add verbosity option to indexing method

@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
  * This class represents a file within a Directory.
  * This class is named Record to avoid conflicts with Java's own File class.
  */
+@Deprecated(since = "1.0.50", forRemoval = true)
 public class Record extends Entry
 {
 	/*
