@@ -29,7 +29,7 @@ public class TempStub
 //		System.out.println("Set Path named startDir");
 //		Stream<Path> pathStream = Files.walk(startDir);
 //		System.out.println("Made file");
-		FileNode fn = new FileNode(pathString);
+//		FileNode fn = new FileNode(pathString);
 //		System.out.println("Made Directory");
 		System.out.println("Starting!");
 		
