@@ -119,7 +119,14 @@ public class FileNode extends File implements Iterable<FileNode>
 	@Override
 	public long length()
 	{
-		return 0L;
+		if(isFile())
+		{
+			return super.length();
+		}
+		else
+		{
+			return 0L;
+		}
 	}
 	
 	public void index()
