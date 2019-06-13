@@ -28,6 +28,12 @@ public class File1 extends java.io.File implements Iterable<File1>
 //		updateImmediateChildren();
 	}
 	
+	public File1(java.io.File in)
+	{
+		super(in.getAbsolutePath());
+//		updateImmediateChildren();
+	}
+	
 	public File1(String parent, String child)
 	{
 		super(parent, child);
@@ -67,7 +73,7 @@ public class File1 extends java.io.File implements Iterable<File1>
 		File1[] out = new File1[arr.length];
 		for (int i = 0; i < arr.length; i++)
 		{
-			out[i] = (File1) arr[i];
+			out[i] = new File1(arr[i]);
 		}
 		return out;
 	}
