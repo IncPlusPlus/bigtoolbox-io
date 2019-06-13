@@ -10,67 +10,67 @@ public class File1Test
 {
 	
 	@BeforeEach
-	void setUp()
+	public void setUp()
 	{
 	}
 	
 	@AfterEach
-	void tearDown()
+	public void tearDown()
 	{
 	}
 	
 	@Test
-	void isRoot()
+	public void isRoot()
 	{
 	}
 	
 	@Test
-	void listFiles()
+	public void listFiles()
 	{
 	}
 	
 	@Test
-	void getSize()
+	public void getSize()
 	{
 	}
 	
 	@Test
-	void index()
+	public void index()
 	{
 	}
 	
 	@Test
-	void runnableIndexerFor()
+	public void runnableIndexerFor()
 	{
 	}
 	
 	@Test
-	void getLargestFile()
+	public void getLargestFile()
 	{
 	}
 	
 	@Test
-	void iterator()
+	public void iterator()
 	{
 	}
 	
 	@Test
-	void getFormattedSize()
+	public void getFormattedSize()
 	{
 	}
 	
 	@Test
-	void getFormattedSize1()
+	public void getFormattedSize1()
 	{
 	}
 	
 	@Test
-	void getFormattedSize2()
+	public void getFormattedSize2()
 	{
 	}
 	
 	@Test
-	void renderDirectoryTree()
+	public void renderDirectoryTree()
 	{
 		URL resource = File1Test.class.getResource("/sample-structure");
 		File1 f1 = new File1(String.valueOf(resource));
