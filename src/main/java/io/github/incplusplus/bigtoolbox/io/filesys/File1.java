@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class File1 extends java.io.File implements Iterable<File1>
 {
@@ -302,12 +303,13 @@ public class File1 extends java.io.File implements Iterable<File1>
 		tree.ensureIndexed();
 		List<StringBuilder> result = new LinkedList<>();
 		result.add(new StringBuilder().append(tree.getName()));
-		Iterator<File1> iterator = tree.children.iterator();
-		while (iterator.hasNext())
+//		Iterator<File1> iterator = tree.children.iterator();
+		Iterator<File1> sortedIterator = tree.children.stream().sorted().collect(Collectors.toList()).iterator();
+		while (sortedIterator.hasNext())
 		{
 			List<StringBuilder> subtree =
-					renderDirectoryTreeLines(iterator.next());
-			if (iterator.hasNext())
+					renderDirectoryTreeLines(sortedIterator.next());
+			if (sortedIterator.hasNext())
 			{
 				addSubtree(result, subtree);
 			}
