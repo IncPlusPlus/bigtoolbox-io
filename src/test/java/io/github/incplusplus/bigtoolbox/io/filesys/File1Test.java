@@ -78,18 +78,18 @@ class File1Test
 	{
 		try
 		{
-			URL resourceLoc = File1Test.class.getResource("/sample-structure");
+			URL resourceLoc = File1Test.class.getResource("/sample-structure1");
 			String resourcePath = new File(resourceLoc.toURI()).getAbsolutePath();
 			File1 f1 = new File1(resourcePath);
-			System.out.println(f1.renderDirectoryTree());
-			assertEquals("sample-structure\n" +
+			assertEquals("sample-structure1\n" +
 					"├── A\n" +
 					"│   ├── A\n" +
 					"│   │   └── A.txt\n" +
 					"│   ├── A.txt\n" +
 					"│   └── B\n" +
-					"│       └── B.txt\n" +
+					"│       └── A.txt\n" +
 					"└── B\n" +
+					"    ├── A.txt\n" +
 					"    └── B.txt\n", f1.renderDirectoryTree());
 		}
 		catch (URISyntaxException e)
