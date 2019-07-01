@@ -2,6 +2,7 @@ package io.github.incplusplus.bigtoolbox.io.filesys;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.Deprecated;
 
 /**
  * This class represents a file within a Directory.

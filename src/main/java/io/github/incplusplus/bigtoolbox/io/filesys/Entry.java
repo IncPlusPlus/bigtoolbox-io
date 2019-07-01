@@ -1,5 +1,7 @@
 package io.github.incplusplus.bigtoolbox.io.filesys;
 
+import java.lang.Deprecated;
+
 @Deprecated(since = "1.0.50", forRemoval = true)
 public abstract class Entry
 {
