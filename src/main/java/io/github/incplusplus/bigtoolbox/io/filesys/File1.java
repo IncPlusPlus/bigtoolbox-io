@@ -26,31 +26,26 @@ public class File1 extends java.io.File implements Iterable<File1>
 	public File1(String pathname)
 	{
 		super(pathname);
-//		updateImmediateChildren();
 	}
 	
 	public File1(java.io.File in)
 	{
 		super(in.getAbsolutePath());
-//		updateImmediateChildren();
 	}
 	
 	public File1(String parent, String child)
 	{
 		super(parent, child);
-//		updateImmediateChildren();
 	}
 	
 	public File1(java.io.File parent, String child)
 	{
 		super(parent, child);
-//		updateImmediateChildren();
 	}
 	
 	public File1(URI uri)
 	{
 		super(uri);
-//		updateImmediateChildren();
 	}
 	
 	public boolean isRoot()
