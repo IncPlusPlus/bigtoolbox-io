@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.github.incplusplus</groupId>
         <artifactId>bigtoolbox</artifactId>
-        <version>1.0.56</version>
+        <version>1.0.57</version>
     </parent>
     <artifactId>io</artifactId>
     <name>Big Tool Box: IO</name>
     <packaging>jar</packaging>
-    <version>1.0.56</version>
+    <version>1.0.57</version>
 
     <build>
         <finalName>io</finalName>
