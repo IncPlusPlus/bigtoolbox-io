@@ -8,7 +8,6 @@ jobs:
     name: Filters for GitHub Actions
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
     - name: HTTP client
       uses: swinton/httpie.action@69125d73caa2c6821f6a41a86112777a37adc171
       with:
