@@ -15,8 +15,6 @@ jobs:
         args: branch master
     - name: HTTP client
       uses: swinton/httpie.action@69125d73caa2c6821f6a41a86112777a37adc171
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: --auth-type=jwt "--auth=${{ secrets.GITHUB_TOKEN }}" POST api.github.com/repos/IncPlusPlus/bigtoolbox/dispatches
+        args: --auth-type=jwt "--auth=${{ secrets.BIGTOOLBOX_ACTIONS_PAT }}" POST api.github.com/repos/IncPlusPlus/bigtoolbox/dispatches
           Accept:application/vnd.github.everest-preview+json event_type=demo
