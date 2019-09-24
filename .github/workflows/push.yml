@@ -13,4 +13,4 @@ jobs:
       uses: swinton/httpie.action@69125d73caa2c6821f6a41a86112777a37adc171
       with:
         args: --auth-type=jwt "--auth=${{ secrets.BIGTOOLBOX_ACTIONS_PAT }}" POST api.github.com/repos/IncPlusPlus/bigtoolbox/dispatches
-          Accept:application/vnd.github.everest-preview+json event_type=demo
+          Accept:application/vnd.github.everest-preview+json event_type=submodule_update_prompt
