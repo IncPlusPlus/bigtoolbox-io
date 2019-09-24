@@ -4,11 +4,11 @@ on:
     - master
 name: Update submodule on parent repo
 jobs:
-  filtersForGitHubActions:
-    name: Filters for GitHub Actions
+  updateThisSubmoduleOnParent:
+    name: Update This Submodule on Parent Repo
     runs-on: ubuntu-latest
     steps:
-    - name: HTTP client
+    - name: Send POST
       uses: swinton/httpie.action@69125d73caa2c6821f6a41a86112777a37adc171
       with:
         args: --auth-type=jwt "--auth=${{ secrets.BIGTOOLBOX_ACTIONS_PAT }}" POST api.github.com/repos/IncPlusPlus/bigtoolbox/dispatches
