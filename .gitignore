@@ -2,7 +2,7 @@
 *.iml
 */target/
 **/target/*
-
+**/pom.xml.versionsBackup
 .gradle
 
 # Ignore Gradle GUI config
