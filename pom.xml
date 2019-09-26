@@ -6,8 +6,9 @@
         <groupId>io.github.incplusplus</groupId>
         <artifactId>bigtoolbox-parent</artifactId>
         <version>1.0.95</version>
+        <relativePath></relativePath>
     </parent>
-    <artifactId>io</artifactId>
+    <artifactId>bigtoolbox-io</artifactId>
     <name>Big Tool Box: IO</name>
     <packaging>jar</packaging>
     <version>1.0.95</version>
@@ -16,6 +17,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>
+                    false
+                </enabled>
+            </snapshots>
+            <id>
+                bintray-incplusplus-main-maven
+            </id>
+            <name>
+                bintray
+            </name>
+            <url>
+                https://dl.bintray.com/incplusplus/main-maven
+            </url>
+        </repository>
+    </repositories>
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
