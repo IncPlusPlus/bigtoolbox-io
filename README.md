@@ -1,6 +1,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/adabd70208404671bde2a54631bd56cb)](https://www.codacy.com/manual/IncPlusPlus/bigtoolbox-io?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IncPlusPlus/bigtoolbox-io&amp;utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/cd58f469-f95d-4585-a670-57e7a390a0f9)](https://codebeat.co/projects/github-com-incplusplus-bigtoolbox-io-master)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/IncPlusPlus/bigtoolbox-io.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IncPlusPlus/bigtoolbox-io/context:java)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ae2d582b81955cd5a42d/maintainability)](https://codeclimate.com/github/IncPlusPlus/bigtoolbox-io/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ae2d582b81955cd5a42d/test_coverage)](https://codeclimate.com/github/IncPlusPlus/bigtoolbox-io/test_coverage)
 [![Build Status](https://travis-ci.com/IncPlusPlus/bigtoolbox-io.svg?branch=master)](https://travis-ci.com/IncPlusPlus/bigtoolbox-io)
 [![Known Vulnerabilities](https://snyk.io//test/github/IncPlusPlus/bigtoolbox-io/badge.svg?targetFile=pom.xml)](https://snyk.io//test/github/IncPlusPlus/bigtoolbox-io?targetFile=pom.xml)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/IncPlusPlus/bigtoolbox-io.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IncPlusPlus/bigtoolbox-io/alerts/)
