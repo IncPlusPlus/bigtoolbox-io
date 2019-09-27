@@ -1,1 +1,2 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/adabd70208404671bde2a54631bd56cb)](https://www.codacy.com/manual/IncPlusPlus/bigtoolbox-io?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IncPlusPlus/bigtoolbox-io&amp;utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/cd58f469-f95d-4585-a670-57e7a390a0f9)](https://codebeat.co/projects/github-com-incplusplus-bigtoolbox-io-master)
