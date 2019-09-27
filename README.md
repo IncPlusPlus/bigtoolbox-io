@@ -2,4 +2,5 @@
 [![codebeat badge](https://codebeat.co/badges/cd58f469-f95d-4585-a670-57e7a390a0f9)](https://codebeat.co/projects/github-com-incplusplus-bigtoolbox-io-master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ae2d582b81955cd5a42d/maintainability)](https://codeclimate.com/github/IncPlusPlus/bigtoolbox-io/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ae2d582b81955cd5a42d/test_coverage)](https://codeclimate.com/github/IncPlusPlus/bigtoolbox-io/test_coverage)
+[![Build Status](https://travis-ci.com/IncPlusPlus/bigtoolbox-io.svg?branch=master)](https://travis-ci.com/IncPlusPlus/bigtoolbox-io)
 [![Known Vulnerabilities](https://snyk.io//test/github/IncPlusPlus/bigtoolbox-io/badge.svg?targetFile=pom.xml)](https://snyk.io//test/github/IncPlusPlus/bigtoolbox-io?targetFile=pom.xml)
