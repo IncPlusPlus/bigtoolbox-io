@@ -12,5 +12,8 @@
 This is the IO module of [bigtoolbox](https://github.com/IncPlusPlus/bigtoolbox).
 Right now this module is in an extremely experimental state and is going through a major overhaul.
 
+## Acknowledgements
+`File1` and `File1Iter` of the IO module use code from [gt4dev](https://github.com/gt4dev)'s [yet-another-tree-structure repository](https://github.com/gt4dev/yet-another-tree-structure) and modifications from [SO](https://stackoverflow.com/a/54338414/1687436). ([See folder](io/src/main/java/io/github/incplusplus/bigtoolbox/io/filesys))
+
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FIncPlusPlus%2Fbigtoolbox-io.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FIncPlusPlus%2Fbigtoolbox-io?ref=badge_large)
