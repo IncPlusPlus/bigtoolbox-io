@@ -18,7 +18,6 @@ import java.util.zip.ZipFile;
  */
 public class TempFile
 {
-	private URI jarURI;
 	private URI fileURI;
 
 	/**
@@ -33,8 +32,7 @@ public class TempFile
 	{
 		try
 		{
-			jarURI = getJarURI();
-			fileURI = getFile(jarURI, fileName, fileExtension);
+			fileURI = getFile(getJarURI(), fileName, fileExtension);
 		}
 		catch(URISyntaxException e)
 		{
