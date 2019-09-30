@@ -10,10 +10,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+/**
+ * This class allows for creation of a temporary file.
+ * <br><br>
+ * Note: A good portion of this code came from
+ * <a href="https://stackoverflow.com/a/600198/1687436">this SO answer</a>.
+ */
 public class TempFile
 {
-	private URI uri;
-	private URI exe;
+	private URI jarURI;
+	private URI fileURI;
 
 	/**
 	 * Creates a temporary file that is disposed of upon exit.
@@ -27,8 +33,8 @@ public class TempFile
 	{
 		try
 		{
-			uri = getJarURI();
-			exe = getFile(uri, fileName, fileExtension);
+			jarURI = getJarURI();
+			fileURI = getFile(jarURI, fileName, fileExtension);
 		}
 		catch(URISyntaxException e)
 		{
@@ -52,7 +58,7 @@ public class TempFile
 	 */
 	public File getContainingFolder()
 	{
-		return new File(exe).getParentFile();
+		return new File(fileURI).getParentFile();
 	}
 
 	/**
@@ -61,7 +67,7 @@ public class TempFile
 	 */
 	public File getAsFile()
 	{
-		return new File(exe);
+		return new File(fileURI);
 	}
 
 	/**
@@ -69,7 +75,7 @@ public class TempFile
 	 */
 	public String toString()
 	{
-		return new File(exe).getName();
+		return new File(fileURI).getName();
 	}
 
 	private static URI getJarURI()
