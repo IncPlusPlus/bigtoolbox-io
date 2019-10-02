@@ -8,6 +8,7 @@ env:
 matrix:
   include:
   - jdk: oraclejdk11
+    # See https://github.com/travis-ci/travis-ci/issues/8667
     install: true
     before_script:
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
@@ -41,6 +42,7 @@ matrix:
       repo: IncPlusPlus/bigtoolbox-io
       branch: master
   - jdk: openjdk11
+    # See https://github.com/travis-ci/travis-ci/issues/8667
     install: true
     before_script:
     - 'curl -H ''Cache-Control: no-cache'' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh
