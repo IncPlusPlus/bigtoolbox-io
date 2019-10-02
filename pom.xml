@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.github.incplusplus</groupId>
     <artifactId>bigtoolbox-parent</artifactId>
-    <version>1.0.104</version>
+    <version>1.0.105</version>
   </parent>
   <artifactId>bigtoolbox-io</artifactId>
   <version>1.0.101</version>
