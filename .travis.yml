@@ -32,16 +32,16 @@ matrix:
         repo: IncPlusPlus/bigtoolbox-io
         branch: master
     - provider: releases
-    api_key:
-      secure: LerudtS5c6iXPXHK/48tHqDaSOwVnCuJzjgYUtuDQu6KUdUXNtutdhG+WT5SFxAWuq7lL/fmllFQ4SE746l2vaO5HtRCab5PQaS8XE2bcZvl8mFvQzNhXAls3XQ/UIgVT4wJv+ZsEtMoFK9yVxvAI8pJyq9Q64/XUpm0rDha3xJW+JWp7lF7CoPlv7C/8LWYcif7lZwUDZIRqrb6fq+0hXRGJuCJLlYAHRn0rhHMrOcEKEsHrxWtb3KeqyiM4CIrfHebiUMZ7FYNNzOioanjwoqMpwmKwNVFFrunEoEMqkJf6fLKB4oa9/rPAOVoF/rry44XkOZ3S0jfbMLZehs0c+b0cmXlvPj6hhgxy/aKZU0MKjcKClg+lvBewtuWqTDjQDFsqGWd+ise76eD/2SC36n4rYqRdMS5erno8djQK6dPUu7RzWmN0Pa/ZZxkyQR+3eb+2j4ByBiAyI9Yf9mduHa32kLs17DsWtlacSJDxcVFsnYIrf1X9Je5BrK/dNs+hv+DJYUjynHwRkYh+iZ780y2nT/yJhUvEQLav45Oxhg5K+8FYAfaTSkImJWHlGhev0f5A7HD4Z5XYqXLXwJfIPeOIEkq2AhfHn5CnjJ66BeGBjhRNNCLwTXLEgpQ5ZYflIYSHAp3jmJXNIKtIOLExi9/M8xJg1HReL39NfZpsbs=
-    file_glob: true
-    file: target/bigtoolbox-io-*.*.*.jar
-    skip_cleanup: true
-    prerelease: true
-    on:
-      repo: IncPlusPlus/bigtoolbox-io
-      branch: master
-      tags: true
+      api_key:
+        secure: LerudtS5c6iXPXHK/48tHqDaSOwVnCuJzjgYUtuDQu6KUdUXNtutdhG+WT5SFxAWuq7lL/fmllFQ4SE746l2vaO5HtRCab5PQaS8XE2bcZvl8mFvQzNhXAls3XQ/UIgVT4wJv+ZsEtMoFK9yVxvAI8pJyq9Q64/XUpm0rDha3xJW+JWp7lF7CoPlv7C/8LWYcif7lZwUDZIRqrb6fq+0hXRGJuCJLlYAHRn0rhHMrOcEKEsHrxWtb3KeqyiM4CIrfHebiUMZ7FYNNzOioanjwoqMpwmKwNVFFrunEoEMqkJf6fLKB4oa9/rPAOVoF/rry44XkOZ3S0jfbMLZehs0c+b0cmXlvPj6hhgxy/aKZU0MKjcKClg+lvBewtuWqTDjQDFsqGWd+ise76eD/2SC36n4rYqRdMS5erno8djQK6dPUu7RzWmN0Pa/ZZxkyQR+3eb+2j4ByBiAyI9Yf9mduHa32kLs17DsWtlacSJDxcVFsnYIrf1X9Je5BrK/dNs+hv+DJYUjynHwRkYh+iZ780y2nT/yJhUvEQLav45Oxhg5K+8FYAfaTSkImJWHlGhev0f5A7HD4Z5XYqXLXwJfIPeOIEkq2AhfHn5CnjJ66BeGBjhRNNCLwTXLEgpQ5ZYflIYSHAp3jmJXNIKtIOLExi9/M8xJg1HReL39NfZpsbs=
+      file_glob: true
+      file: target/bigtoolbox-io-*.*.*.jar
+      skip_cleanup: true
+      prerelease: true
+      on:
+        repo: IncPlusPlus/bigtoolbox-io
+        branch: master
+        tags: true
   - jdk: openjdk11
     # See https://github.com/travis-ci/travis-ci/issues/8667
     install: true
