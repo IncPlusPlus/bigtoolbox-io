@@ -2,43 +2,53 @@ dist: xenial
 language: java
 cache:
   directories:
-    - $HOME/.m2/repository
+  - "$HOME/.m2/repository"
 env:
-  - CLI_VERSION=latest
+- CLI_VERSION=latest
 matrix:
   include:
-    - jdk: oraclejdk11
-      # See https://github.com/travis-ci/travis-ci/issues/8667
-      install: true
-      script:
-        - mvn clean jacoco:prepare-agent install jacoco:report
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-      deploy:
-        - provider: bintray
-          file: bintray_info_maven.JSON
-          user: incplusplus
-          key: "$bintray_key"
-          skip_cleanup: true
-          on:
-            repo: IncPlusPlus/bigtoolbox-io
-            branch: master
-    #    - provider: releases
-    #      api_key:
-    #        secure: LcglvToS0j9N2sFmTl5l29o1WKNzBnf/pzf58g/J/LBf2wkvDU0OiTMUST/4dLLRsIeokMz8sSlNh6jE0CNpF5VJ6I9S8nljCnom6n5vrsFo2rnaC2Ir8o83UnmW6Pi7I3c4n+BAwB8qMH4NXiRnXuspPQivQhvqLp5GbDq5dI5mwDKxhVmIlxMncVA/V5pxhTpMZJUoqJtW6RV4hhdZnNPMHT173lXCx347fbvxcPviio/CIbFeew1x4k7Elck5YBvJdfIvWoV5fNuGy3eWbTwRTE8ETh6z+v9CdVQ3VNDsF7IH2NDHTnAJITdZnZEm98lxRQ5L5su8xH58d3IYL8tcPl9df6oLe3q6/T8XfV/2OA+Y9mH4cYpfjyoA7Vic4cUL7OzIowpdM7OREcxP2Z3Wgbv0izd+uJCWPUieykeTEzCKXHA2vT0JDMVpdidG6lPKbpNGiE621AWZTUtAg9mGMy3PQJNKTsX4IDk4Lu9Gy4XPYy36gqC8L3zVRAVNkOjZWD1M0wWM3SAjigZmTLjsi0IS752d85oziiD/rlVIhBHeuRSMlcjIinlsry9aMO+gjwzCUKOcQ6nu3BlIkjH587rVj6DHjm9gIPTite9CpLLB+8f4fUkNGer5A+Bd9eYW6qm75nI+NGOK2ArMjWF344rmyuIhV0ANmWqU3gg=
-    #      file_glob: true
-    #      file: target/bigtoolbox-io-*.*.*.jar
-    #      skip_cleanup: true
-    #      draft: true
-    #      on:
-    #        repo: IncPlusPlus/bigtoolbox-io
-    #        branch: master
-    - jdk: openjdk11
-      # See https://github.com/travis-ci/travis-ci/issues/8667
-      install: true
-      before_script:
-        - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
-      script:
-        - mvn clean install
-        - fossa init
-        - fossa analyze
+  - jdk: oraclejdk11
+    # See https://github.com/travis-ci/travis-ci/issues/8667
+    install: true
+    before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+      > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - "./cc-test-reporter before-build"
+    script:
+    - mvn clean jacoco:prepare-agent install jacoco:report
+    after_script:
+    - "./cc-test-reporter format-coverage -t jacoco ./target/jacoco_fixed_for_codeclimate.xml"
+    - "./cc-test-reporter upload-coverage"
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
+    deploy:
+    - provider: bintray
+      file: bintray_info_maven.JSON
+      user: incplusplus
+      key: "$bintray_key"
+      skip_cleanup: true
+      on:
+        repo: IncPlusPlus/bigtoolbox-io
+        branch: master
+    - provider: releases
+      api_key:
+        secure: LerudtS5c6iXPXHK/48tHqDaSOwVnCuJzjgYUtuDQu6KUdUXNtutdhG+WT5SFxAWuq7lL/fmllFQ4SE746l2vaO5HtRCab5PQaS8XE2bcZvl8mFvQzNhXAls3XQ/UIgVT4wJv+ZsEtMoFK9yVxvAI8pJyq9Q64/XUpm0rDha3xJW+JWp7lF7CoPlv7C/8LWYcif7lZwUDZIRqrb6fq+0hXRGJuCJLlYAHRn0rhHMrOcEKEsHrxWtb3KeqyiM4CIrfHebiUMZ7FYNNzOioanjwoqMpwmKwNVFFrunEoEMqkJf6fLKB4oa9/rPAOVoF/rry44XkOZ3S0jfbMLZehs0c+b0cmXlvPj6hhgxy/aKZU0MKjcKClg+lvBewtuWqTDjQDFsqGWd+ise76eD/2SC36n4rYqRdMS5erno8djQK6dPUu7RzWmN0Pa/ZZxkyQR+3eb+2j4ByBiAyI9Yf9mduHa32kLs17DsWtlacSJDxcVFsnYIrf1X9Je5BrK/dNs+hv+DJYUjynHwRkYh+iZ780y2nT/yJhUvEQLav45Oxhg5K+8FYAfaTSkImJWHlGhev0f5A7HD4Z5XYqXLXwJfIPeOIEkq2AhfHn5CnjJ66BeGBjhRNNCLwTXLEgpQ5ZYflIYSHAp3jmJXNIKtIOLExi9/M8xJg1HReL39NfZpsbs=
+      file_glob: true
+      file: target/bigtoolbox-io-*.*.*.jar
+      skip_cleanup: true
+      prerelease: true
+      on:
+        repo: IncPlusPlus/bigtoolbox-io
+        branch: master
+        tags: true
+  - jdk: openjdk11
+    # See https://github.com/travis-ci/travis-ci/issues/8667
+    install: true
+    before_script:
+    - 'curl -H ''Cache-Control: no-cache'' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh
+      | sudo bash'
+    script:
+    - mvn clean install
+    - fossa init
+    - fossa analyze

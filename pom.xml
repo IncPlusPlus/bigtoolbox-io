@@ -4,10 +4,10 @@
   <parent>
     <groupId>io.github.incplusplus</groupId>
     <artifactId>bigtoolbox-parent</artifactId>
-    <version>1.0.103</version>
+    <version>1.0.106</version>
   </parent>
   <artifactId>bigtoolbox-io</artifactId>
-  <version>1.0.99</version>
+  <version>1.0.102</version>
   <packaging>jar</packaging>
   <name>Big Tool Box: IO</name>
   <description>The IO module of bigtoolbox</description>
