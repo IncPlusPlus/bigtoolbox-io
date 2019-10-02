@@ -10,8 +10,15 @@ matrix:
     - jdk: oraclejdk11
       # See https://github.com/travis-ci/travis-ci/issues/8667
       install: true
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
       script:
         - mvn clean jacoco:prepare-agent install jacoco:report
+      after_script:
+        - ./cc-test-reporter format-coverage -t jacoco ./target/jacoco_fixed_for_codeclimate.xml
+        - ./cc-test-reporter upload-coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
       deploy:
