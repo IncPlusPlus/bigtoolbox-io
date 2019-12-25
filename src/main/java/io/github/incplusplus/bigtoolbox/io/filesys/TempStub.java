@@ -13,7 +13,7 @@ public class TempStub
 //		Path startDir = Path.of(pathString);
 //		Stream<Path> pathStream = Files.walk(startDir);
 		File1 file1 = new File1(pathString);
-		Directory d = new Directory(pathString);
+//		Directory d = new Directory(pathString);
 //		Stopwatch sw;
 //		DirectoryStream directoryStream = java.nio.file.Files.newDirectoryStream(startDir);
 //		System.out.println("Size with streams: " + file.getSize());
