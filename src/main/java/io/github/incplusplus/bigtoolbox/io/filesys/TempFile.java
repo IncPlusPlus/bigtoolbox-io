@@ -27,25 +27,28 @@ public class TempFile
 	 *
 	 * @param fileName      The name of the resource without the extension
 	 * @param fileExtension The file extension (without the dot)
+	 * @apiNote This constructor walks the stacktrace to find the class that
+	 * called it. It then uses that class as the domainClass argument for
+	 * the second constructor. For more fine-grained control, it is preferable
+	 * to use the alternate constructor {{@link #TempFile(String, String, Class)}}
 	 */
-	public TempFile(String fileName, String fileExtension)
-	{
-		try
-		{
-			fileURI = getFile(getJarURI(), fileName, fileExtension);
-		}
-		catch(URISyntaxException e)
-		{
-			e.printStackTrace();
-		}
-		catch(ZipException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+	public TempFile(String fileName, String fileExtension) throws IOException, URISyntaxException {
+		this(fileName,fileExtension,StackWalker
+				.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass());
+	}
+	
+	/**
+	 * Creates a temporary file that is disposed of upon exit.
+	 * The file must be a resource in the project. It will be extracted
+	 * from the jar to a temporary directory.
+	 *
+	 * @param fileName      The name of the resource without the extension
+	 * @param fileExtension The file extension (without the dot)
+	 * @param domainClass the domain to search within. If the file you want is in a certain JAR,
+	 *                    specify a class here that is within that JAR.
+	 */
+	public TempFile(String fileName, String fileExtension, Class<?> domainClass) throws URISyntaxException, IOException {
+		fileURI = getFile(getJarURI(domainClass), fileName, fileExtension);
 	}
 
 	/**
@@ -76,7 +79,7 @@ public class TempFile
 		return new File(fileURI).getName();
 	}
 
-	private static URI getJarURI()
+	private static URI getJarURI(Class<?> domainClass)
 			throws URISyntaxException
 	{
 		final ProtectionDomain domain;
@@ -84,7 +87,7 @@ public class TempFile
 		final URL url;
 		final URI uri;
 
-		domain = TempFile.class.getProtectionDomain();
+		domain = domainClass.getProtectionDomain();
 		source = domain.getCodeSource();
 		url = source.getLocation();
 		uri = url.toURI();
