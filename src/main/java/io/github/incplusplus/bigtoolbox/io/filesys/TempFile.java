@@ -27,6 +27,8 @@ public class TempFile
 	 *
 	 * @param fileName      The name of the resource without the extension
 	 * @param fileExtension The file extension (without the dot)
+	 * @throws IOException if there was an IOException when extracting a file from the JAR
+	 * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
 	 * @apiNote This constructor walks the stacktrace to find the class that
 	 * called it. It then uses that class as the domainClass argument for
 	 * the second constructor. For more fine-grained control, it is preferable
@@ -44,8 +46,10 @@ public class TempFile
 	 *
 	 * @param fileName      The name of the resource without the extension
 	 * @param fileExtension The file extension (without the dot)
-	 * @param domainClass the domain to search within. If the file you want is in a certain JAR,
-	 *                    specify a class here that is within that JAR.
+	 * @param domainClass   the domain to search within. If the file you want is in a certain JAR,
+	 *                      specify a class here that is within that JAR.
+	 * @throws IOException        if there was an IOException when extracting a file from the JAR
+	 * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
 	 */
 	public TempFile(String fileName, String fileExtension, Class<?> domainClass) throws URISyntaxException, IOException {
 		fileURI = getFile(getJarURI(domainClass), fileName, fileExtension);
