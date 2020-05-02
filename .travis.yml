@@ -7,7 +7,7 @@ env:
 - CLI_VERSION=latest
 matrix:
   include:
-  - jdk: oraclejdk11
+  - jdk: oraclejdk14
     # See https://github.com/travis-ci/travis-ci/issues/8667
     install: true
     before_script:
@@ -42,7 +42,7 @@ matrix:
         repo: IncPlusPlus/bigtoolbox-io
         branch: master
         tags: true
-  - jdk: openjdk11
+  - jdk: openjdk14
     # See https://github.com/travis-ci/travis-ci/issues/8667
     install: true
     before_script:
