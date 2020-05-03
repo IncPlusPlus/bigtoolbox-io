@@ -1,54 +1,46 @@
 dist: xenial
 language: java
+jdk: openjdk14
 cache:
   directories:
   - "$HOME/.m2/repository"
 env:
 - CLI_VERSION=latest
-matrix:
-  include:
-  - jdk: oraclejdk14
-    # See https://github.com/travis-ci/travis-ci/issues/8667
-    install: true
-    before_script:
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-      > ./cc-test-reporter
-    - chmod +x ./cc-test-reporter
-    - "./cc-test-reporter before-build"
-    script:
-    - mvn clean jacoco:prepare-agent install jacoco:report
-    after_script:
-    - "./cc-test-reporter format-coverage -t jacoco ./target/jacoco_fixed_for_codeclimate.xml"
-    - "./cc-test-reporter upload-coverage"
-    after_success:
-    - bash <(curl -s https://codecov.io/bash)
-    deploy:
-    - provider: bintray
-      file: bintray_info_maven.JSON
-      user: incplusplus
-      key: "$bintray_key"
-      skip_cleanup: true
-      on:
-        repo: IncPlusPlus/bigtoolbox-io
-        branch: master
-    - provider: releases
-      api_key:
-        secure: LerudtS5c6iXPXHK/48tHqDaSOwVnCuJzjgYUtuDQu6KUdUXNtutdhG+WT5SFxAWuq7lL/fmllFQ4SE746l2vaO5HtRCab5PQaS8XE2bcZvl8mFvQzNhXAls3XQ/UIgVT4wJv+ZsEtMoFK9yVxvAI8pJyq9Q64/XUpm0rDha3xJW+JWp7lF7CoPlv7C/8LWYcif7lZwUDZIRqrb6fq+0hXRGJuCJLlYAHRn0rhHMrOcEKEsHrxWtb3KeqyiM4CIrfHebiUMZ7FYNNzOioanjwoqMpwmKwNVFFrunEoEMqkJf6fLKB4oa9/rPAOVoF/rry44XkOZ3S0jfbMLZehs0c+b0cmXlvPj6hhgxy/aKZU0MKjcKClg+lvBewtuWqTDjQDFsqGWd+ise76eD/2SC36n4rYqRdMS5erno8djQK6dPUu7RzWmN0Pa/ZZxkyQR+3eb+2j4ByBiAyI9Yf9mduHa32kLs17DsWtlacSJDxcVFsnYIrf1X9Je5BrK/dNs+hv+DJYUjynHwRkYh+iZ780y2nT/yJhUvEQLav45Oxhg5K+8FYAfaTSkImJWHlGhev0f5A7HD4Z5XYqXLXwJfIPeOIEkq2AhfHn5CnjJ66BeGBjhRNNCLwTXLEgpQ5ZYflIYSHAp3jmJXNIKtIOLExi9/M8xJg1HReL39NfZpsbs=
-      file_glob: true
-      file: target/bigtoolbox-io-*.*.*.jar
-      skip_cleanup: true
-      prerelease: true
-      on:
-        repo: IncPlusPlus/bigtoolbox-io
-        branch: master
-        tags: true
-  - jdk: openjdk14
-    # See https://github.com/travis-ci/travis-ci/issues/8667
-    install: true
-    before_script:
-    - 'curl -H ''Cache-Control: no-cache'' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh
-      | sudo bash'
-    script:
-    - mvn clean install
-    - fossa init
-    - fossa analyze
+# See https://github.com/travis-ci/travis-ci/issues/8667
+install: true
+before_script:
+- 'curl -H ''Cache-Control: no-cache'' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh
+  | sudo bash'
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+script:
+- mvn clean jacoco:prepare-agent install jacoco:report
+- fossa init
+- fossa analyze
+after_script:
+- "./cc-test-reporter format-coverage -t jacoco ./target/jacoco_fixed_for_codeclimate.xml"
+- "./cc-test-reporter upload-coverage"
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+- provider: bintray
+  file: bintray_info_maven.JSON
+  user: incplusplus
+  key: "$bintray_key"
+  skip_cleanup: true
+  on:
+    repo: IncPlusPlus/bigtoolbox-io
+    branch: master
+- provider: releases
+  api_key:
+    secure: LerudtS5c6iXPXHK/48tHqDaSOwVnCuJzjgYUtuDQu6KUdUXNtutdhG+WT5SFxAWuq7lL/fmllFQ4SE746l2vaO5HtRCab5PQaS8XE2bcZvl8mFvQzNhXAls3XQ/UIgVT4wJv+ZsEtMoFK9yVxvAI8pJyq9Q64/XUpm0rDha3xJW+JWp7lF7CoPlv7C/8LWYcif7lZwUDZIRqrb6fq+0hXRGJuCJLlYAHRn0rhHMrOcEKEsHrxWtb3KeqyiM4CIrfHebiUMZ7FYNNzOioanjwoqMpwmKwNVFFrunEoEMqkJf6fLKB4oa9/rPAOVoF/rry44XkOZ3S0jfbMLZehs0c+b0cmXlvPj6hhgxy/aKZU0MKjcKClg+lvBewtuWqTDjQDFsqGWd+ise76eD/2SC36n4rYqRdMS5erno8djQK6dPUu7RzWmN0Pa/ZZxkyQR+3eb+2j4ByBiAyI9Yf9mduHa32kLs17DsWtlacSJDxcVFsnYIrf1X9Je5BrK/dNs+hv+DJYUjynHwRkYh+iZ780y2nT/yJhUvEQLav45Oxhg5K+8FYAfaTSkImJWHlGhev0f5A7HD4Z5XYqXLXwJfIPeOIEkq2AhfHn5CnjJ66BeGBjhRNNCLwTXLEgpQ5ZYflIYSHAp3jmJXNIKtIOLExi9/M8xJg1HReL39NfZpsbs=
+  file_glob: true
+  file: target/bigtoolbox-io-*.*.*.jar
+  skip_cleanup: true
+  prerelease: true
+  on:
+    repo: IncPlusPlus/bigtoolbox-io
+    branch: master
+    tags: true
