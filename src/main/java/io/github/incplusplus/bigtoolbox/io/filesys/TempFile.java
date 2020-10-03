@@ -11,184 +11,162 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 /**
- * This class allows for creation of a temporary file.
- * <br><br>
- * Note: A good portion of this code came from
- * <a href="https://stackoverflow.com/a/600198/1687436">this SO answer</a>.
+ * This class allows for creation of a temporary file. <br>
+ * <br>
+ * Note: A good portion of this code came from <a
+ * href="https://stackoverflow.com/a/600198/1687436">this SO answer</a>.
  */
-public class TempFile
-{
-	private URI fileURI;
+public class TempFile {
+  private URI fileURI;
 
-	/**
-	 * Creates a temporary file that is disposed of upon exit.
-	 * The file must be a resource in the project. It will be extracted
-	 * from the jar to a temporary directory.
-	 *
-	 * @param fileName      The name of the resource without the extension
-	 * @param fileExtension The file extension (without the dot)
-	 * @throws IOException if there was an IOException when extracting a file from the JAR
-	 * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
-	 * @apiNote This constructor walks the stacktrace to find the class that
-	 * called it. It then uses that class as the domainClass argument for
-	 * the second constructor. For more fine-grained control, it is preferable
-	 * to use the alternate constructor {{@link #TempFile(String, String, Class)}}
-	 */
-	public TempFile(String fileName, String fileExtension) throws IOException, URISyntaxException {
-		this(fileName,fileExtension,StackWalker
-				.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass());
-	}
-	
-	/**
-	 * Creates a temporary file that is disposed of upon exit.
-	 * The file must be a resource in the project. It will be extracted
-	 * from the jar to a temporary directory.
-	 *
-	 * @param fileName      The name of the resource without the extension
-	 * @param fileExtension The file extension (without the dot)
-	 * @param domainClass   the domain to search within. If the file you want is in a certain JAR,
-	 *                      specify a class here that is within that JAR.
-	 * @throws IOException        if there was an IOException when extracting a file from the JAR
-	 * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
-	 */
-	public TempFile(String fileName, String fileExtension, Class<?> domainClass) throws URISyntaxException, IOException {
-		fileURI = getFile(getJarURI(domainClass), fileName, fileExtension);
-	}
+  /**
+   * Creates a temporary file that is disposed of upon exit. The file must be a resource in the
+   * project. It will be extracted from the jar to a temporary directory.
+   *
+   * @param fileName The name of the resource without the extension
+   * @param fileExtension The file extension (without the dot)
+   * @throws IOException if there was an IOException when extracting a file from the JAR
+   * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
+   * @apiNote This constructor walks the stacktrace to find the class that called it. It then uses
+   *     that class as the domainClass argument for the second constructor. For more fine-grained
+   *     control, it is preferable to use the alternate constructor {{@link #TempFile(String,
+   *     String, Class)}}
+   */
+  public TempFile(String fileName, String fileExtension) throws IOException, URISyntaxException {
+    this(
+        fileName,
+        fileExtension,
+        StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass());
+  }
 
-	/**
-	 * Returns the path to the folder
-	 * the temp file was created in.
-	 *
-	 * @return The path to the created temp file
-	 */
-	public File getContainingFolder()
-	{
-		return new File(fileURI).getParentFile();
-	}
+  /**
+   * Creates a temporary file that is disposed of upon exit. The file must be a resource in the
+   * project. It will be extracted from the jar to a temporary directory.
+   *
+   * @param fileName The name of the resource without the extension
+   * @param fileExtension The file extension (without the dot)
+   * @param domainClass the domain to search within. If the file you want is in a certain JAR,
+   *     specify a class here that is within that JAR.
+   * @throws IOException if there was an IOException when extracting a file from the JAR
+   * @throws URISyntaxException if the URL is malformed when determining the path to the JAR
+   */
+  public TempFile(String fileName, String fileExtension, Class<?> domainClass)
+      throws URISyntaxException, IOException {
+    fileURI = getFile(getJarURI(domainClass), fileName, fileExtension);
+  }
 
-	/**
-	 * Returns the created temp file as a File
-	 * @return Get the created temp file as a File
-	 */
-	public File getAsFile()
-	{
-		return new File(fileURI);
-	}
+  /**
+   * Returns the path to the folder the temp file was created in.
+   *
+   * @return The path to the created temp file
+   */
+  public File getContainingFolder() {
+    return new File(fileURI).getParentFile();
+  }
 
-	/**
-	 * @return Returns the full name of the created temp file
-	 */
-	public String toString()
-	{
-		return new File(fileURI).getName();
-	}
+  /**
+   * Returns the created temp file as a File
+   *
+   * @return Get the created temp file as a File
+   */
+  public File getAsFile() {
+    return new File(fileURI);
+  }
 
-	private static URI getJarURI(Class<?> domainClass)
-			throws URISyntaxException
-	{
-		final ProtectionDomain domain;
-		final CodeSource source;
-		final URL url;
-		final URI uri;
+  /** @return Returns the full name of the created temp file */
+  public String toString() {
+    return new File(fileURI).getName();
+  }
 
-		domain = domainClass.getProtectionDomain();
-		source = domain.getCodeSource();
-		url = source.getLocation();
-		uri = url.toURI();
+  private static URI getJarURI(Class<?> domainClass) throws URISyntaxException {
+    final ProtectionDomain domain;
+    final CodeSource source;
+    final URL url;
+    final URI uri;
 
-		return (uri);
-	}
+    domain = domainClass.getProtectionDomain();
+    source = domain.getCodeSource();
+    url = source.getLocation();
+    uri = url.toURI();
 
-	private static URI getFile(final URI where,
-	                           final String fileName, String fileExtension)
-			throws ZipException,
-			IOException
-	{
-		final File location;
-		final URI fileURI;
+    return (uri);
+  }
 
-		location = new File(where);
+  private static URI getFile(final URI where, final String fileName, String fileExtension)
+      throws ZipException, IOException {
+    final File location;
+    final URI fileURI;
 
-		// not in a JAR, just return the path on disk
-		if(location.isDirectory())
-		{
-			fileURI = URI.create(where.toString() + fileName+"."+fileExtension);
-		}
-		else
-		{
-			final ZipFile zipFile;
+    location = new File(where);
 
-			zipFile = new ZipFile(location);
+    // not in a JAR, just return the path on disk
+    if (location.isDirectory()) {
+      fileURI = URI.create(where.toString() + fileName + "." + fileExtension);
+    } else {
+      final ZipFile zipFile;
 
-			try
-			{
-				fileURI = extract(zipFile, fileName, fileExtension);
-			}
-			finally
-			{
-				zipFile.close();
-			}
-		}
+      zipFile = new ZipFile(location);
 
-		return (fileURI);
-	}
+      try {
+        fileURI = extract(zipFile, fileName, fileExtension);
+      } finally {
+        zipFile.close();
+      }
+    }
 
-	private static URI extract(final ZipFile zipFile,
-	                           final String fileName, final String fileExtension)
-			throws IOException
-	{
-		final File tempFile;
-		final ZipEntry entry;
-		final InputStream zipStream;
-		OutputStream fileStream;
+    return (fileURI);
+  }
 
-		tempFile = File.createTempFile(fileName+System.currentTimeMillis(), "."+fileExtension);
-		tempFile.deleteOnExit();
-		entry = zipFile.getEntry(fileName+"."+fileExtension);
+  private static URI extract(
+      final ZipFile zipFile, final String fileName, final String fileExtension) throws IOException {
+    final File tempFile;
+    final ZipEntry entry;
+    final InputStream zipStream;
+    OutputStream fileStream;
 
-		if(entry == null)
-		{
-			throw new FileNotFoundException("cannot find file: " + fileName+"."+fileExtension + " in archive: " + zipFile.getName());
-		}
+    tempFile = File.createTempFile(fileName + System.currentTimeMillis(), "." + fileExtension);
+    tempFile.deleteOnExit();
+    entry = zipFile.getEntry(fileName + "." + fileExtension);
 
-		zipStream = zipFile.getInputStream(entry);
-		fileStream = null;
+    if (entry == null) {
+      throw new FileNotFoundException(
+          "cannot find file: "
+              + fileName
+              + "."
+              + fileExtension
+              + " in archive: "
+              + zipFile.getName());
+    }
 
-		try
-		{
-			final byte[] buf;
-			int i;
+    zipStream = zipFile.getInputStream(entry);
+    fileStream = null;
 
-			fileStream = new FileOutputStream(tempFile);
-			buf = new byte[1024];
-			i = 0;
+    try {
+      final byte[] buf;
+      int i;
 
-			while((i = zipStream.read(buf)) != - 1)
-			{
-				fileStream.write(buf, 0, i);
-			}
-		}
-		finally
-		{
-			close(zipStream);
-			close(fileStream);
-		}
+      fileStream = new FileOutputStream(tempFile);
+      buf = new byte[1024];
+      i = 0;
 
-		return (tempFile.toURI());
-	}
+      while ((i = zipStream.read(buf)) != -1) {
+        fileStream.write(buf, 0, i);
+      }
+    } finally {
+      close(zipStream);
+      close(fileStream);
+    }
 
-	private static void close(final Closeable stream)
-	{
-		if(stream != null)
-		{
-			try
-			{
-				stream.close();
-			}
-			catch(final IOException ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-	}
+    return (tempFile.toURI());
+  }
+
+  private static void close(final Closeable stream) {
+    if (stream != null) {
+      try {
+        stream.close();
+      } catch (final IOException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
 }
